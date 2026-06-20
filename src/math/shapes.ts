@@ -1,4 +1,4 @@
-import type { Polytope, Polytope2D, Polytope4D } from './types';
+import type { Polytope, Polytope2D, Polytope3D, Polytope4D, Vec3 } from './types';
 
 /** Unit square centered at origin. */
 export const SQUARE: Polytope2D = {
@@ -29,6 +29,27 @@ export const TRIANGLE: Polytope2D = {
     [2, 0],
   ],
 };
+
+/** Unit cube: vertices at every (+/-1, +/-1, +/-1). */
+export const CUBE: Polytope3D = (() => {
+  const vertices: Vec3[] = [];
+  for (let i = 0; i < 8; i++) {
+    vertices.push([
+      (i & 1) ? 1 : -1,
+      (i & 2) ? 1 : -1,
+      (i & 4) ? 1 : -1,
+    ]);
+  }
+  const edges: [number, number][] = [];
+  for (let i = 0; i < 8; i++) {
+    for (let j = i + 1; j < 8; j++) {
+      let diff = 0;
+      for (let k = 0; k < 3; k++) if (vertices[i][k] !== vertices[j][k]) diff++;
+      if (diff === 1) edges.push([i, j]);
+    }
+  }
+  return { vertices, edges };
+})();
 
 /** Unit tesseract: vertices at every (+/-1, +/-1, +/-1, +/-1). */
 export const TESSERACT: Polytope4D = (() => {

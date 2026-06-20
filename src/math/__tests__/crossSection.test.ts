@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { crossSection, hypersphereCrossSectionRadius } from '../crossSection';
-import { TESSERACT } from '../shapes';
+import { crossSection, sphereCrossSectionRadius } from '../crossSection';
+import { CUBE, TESSERACT } from '../shapes';
 
 describe('crossSection', () => {
   it('tesseract sliced outside w in [-1, 1] gives no crossings', () => {
@@ -21,18 +21,35 @@ describe('crossSection', () => {
   });
 });
 
-describe('hypersphereCrossSectionRadius', () => {
-  it('peaks at w=0 with radius R', () => {
-    expect(hypersphereCrossSectionRadius(1, 0)).toBeCloseTo(1);
+describe('crossSection — 3D cube (Module 0)', () => {
+  it('cube sliced at z=0 gives 4 points forming a unit square in 2D', () => {
+    const pts = crossSection(CUBE, 0);
+    expect(pts.length).toBe(4);
+    for (const p of pts) {
+      expect(p.length).toBe(2);
+      expect(Math.abs(p[0])).toBeCloseTo(1);
+      expect(Math.abs(p[1])).toBeCloseTo(1);
+    }
+  });
+
+  it('cube sliced outside z in [-1, 1] gives no crossings', () => {
+    expect(crossSection(CUBE, 1.5).length).toBe(0);
+    expect(crossSection(CUBE, -1.5).length).toBe(0);
+  });
+});
+
+describe('sphereCrossSectionRadius', () => {
+  it('peaks at k=0 with radius R', () => {
+    expect(sphereCrossSectionRadius(1, 0)).toBeCloseTo(1);
   });
 
   it('matches sqrt(R^2 - w^2)', () => {
-    expect(hypersphereCrossSectionRadius(1, 0.5)).toBeCloseTo(Math.sqrt(0.75));
-    expect(hypersphereCrossSectionRadius(2, 1)).toBeCloseTo(Math.sqrt(3));
+    expect(sphereCrossSectionRadius(1, 0.5)).toBeCloseTo(Math.sqrt(0.75));
+    expect(sphereCrossSectionRadius(2, 1)).toBeCloseTo(Math.sqrt(3));
   });
 
   it('is zero outside |w| >= R', () => {
-    expect(hypersphereCrossSectionRadius(1, 1)).toBe(0);
-    expect(hypersphereCrossSectionRadius(1, 2)).toBe(0);
+    expect(sphereCrossSectionRadius(1, 1)).toBe(0);
+    expect(sphereCrossSectionRadius(1, 2)).toBe(0);
   });
 });
