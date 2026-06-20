@@ -1,0 +1,37 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+build/
+
+# vite / cache
+.vite/
+*.tsbuildinfo
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# env
+.env
+.env.local
+.env.*.local
+
+# project plan (kept local, not part of public repo)
+4D-Visualization-Project-Plan.md
+
+# claude / agent artifacts (kept out of public repo)
+.claude/
+CLAUDE.md
+claude.md
+.claude.json
