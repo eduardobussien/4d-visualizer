@@ -137,7 +137,9 @@ export function createGodsEyeView(container: HTMLElement): GodsEyeView {
     scene.add(curveLine);
   }
 
+  let disposed = false;
   function tick(): void {
+    if (disposed) return;
     requestAnimationFrame(tick);
     controls.update();
     renderer.render(scene, camera);
@@ -168,7 +170,9 @@ export function createGodsEyeView(container: HTMLElement): GodsEyeView {
       rebuildCurve();
     },
     dispose() {
+      disposed = true;
       window.removeEventListener('resize', handleResize);
+      controls.dispose();
       renderer.dispose();
       if (renderer.domElement.parentElement === container) {
         container.removeChild(renderer.domElement);

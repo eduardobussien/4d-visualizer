@@ -45,7 +45,7 @@ const TEMPLATE = `
   </div>
 `;
 
-export function mountModule0(root: HTMLElement): void {
+export function mountModule0(root: HTMLElement): () => void {
   root.innerHTML = TEMPLATE;
 
   const godsEyeContainer = root.querySelector('#m0-gods-eye') as HTMLElement;
@@ -99,4 +99,10 @@ export function mountModule0(root: HTMLElement): void {
   });
 
   syncAll();
+
+  return () => {
+    godsEye.dispose();
+    flat.dispose();
+    root.innerHTML = '';
+  };
 }
