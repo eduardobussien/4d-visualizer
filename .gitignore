@@ -27,11 +27,6 @@ Thumbs.db
 .env.local
 .env.*.local
 
-# project plan (kept local, not part of public repo)
-4D-Visualization-Project-Plan.md
-
-# claude / agent artifacts (kept out of public repo)
-.claude/
-CLAUDE.md
-claude.md
-.claude.json
+# local notes / drafts (not part of the public repo)
+*.local.md
+notes/

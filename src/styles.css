@@ -94,6 +94,10 @@ html, body {
   grid-template-columns: 1fr 1fr 1fr;
 }
 
+.views-single {
+  grid-template-columns: 1fr;
+}
+
 .view-panel {
   background: var(--bg-elev);
   border: 1px solid var(--border);

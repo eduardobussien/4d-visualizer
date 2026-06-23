@@ -4,3 +4,4 @@ export * from './project';
 export * from './crossSection';
 export * from './dimensionRaising';
 export * from './shapes';
+export * from './utils';
