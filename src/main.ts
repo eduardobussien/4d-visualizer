@@ -4,8 +4,9 @@ import { mountModule05 } from './modules/module05';
 import { mountModule1 } from './modules/module1';
 import { mountModule2 } from './modules/module2';
 import { mountModule3 } from './modules/module3';
+import { mountModule4 } from './modules/module4';
 
-type Route = 'module0' | 'module05' | 'module1' | 'module2' | 'module3';
+type Route = 'module0' | 'module05' | 'module1' | 'module2' | 'module3' | 'module4';
 
 const ROUTES: Record<Route, { label: string; mount: (root: HTMLElement) => () => void }> = {
   module0: { label: 'Module 0 — Flatland', mount: mountModule0 },
@@ -13,6 +14,7 @@ const ROUTES: Record<Route, { label: string; mount: (root: HTMLElement) => () =>
   module1: { label: 'Module 1 — Tesseract', mount: mountModule1 },
   module2: { label: 'Module 2 — Projection', mount: mountModule2 },
   module3: { label: 'Module 3 — Six Rotations', mount: mountModule3 },
+  module4: { label: 'Module 4 — Playground', mount: mountModule4 },
 };
 
 const app = document.getElementById('app');
