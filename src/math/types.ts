@@ -6,7 +6,7 @@ export type RotationPlane = 'XY' | 'XZ' | 'YZ' | 'XW' | 'YW' | 'ZW';
 
 /**
  * A polytope: a set of vertices in some dimension, with edges as index pairs.
- * Dimension-agnostic — used for everything from a 2D polygon to a 4D polytope.
+ * Dimension-agnostic - used for everything from a 2D polygon to a 4D polytope.
  */
 export interface Polytope<V extends number[] = number[]> {
   vertices: V[];

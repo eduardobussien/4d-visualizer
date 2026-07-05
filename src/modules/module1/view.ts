@@ -26,7 +26,7 @@ export interface Module1View {
 
 /**
  * The heart of the project: a 4D shape passing through your 3D space.
- * You see the 3D cross-section — one slice at a time. For a tesseract,
+ * You see the 3D cross-section - one slice at a time. For a tesseract,
  * adding 4D rotation (XW plane here) makes the cross-section morph through
  * a sequence of polyhedra; that morphing IS the 4D experience for a 3D being.
  */
@@ -120,7 +120,7 @@ export function createModule1View(container: HTMLElement): Module1View {
             g.add(new THREE.Mesh(solid, solidMat));
             g.add(new THREE.LineSegments(new THREE.EdgesGeometry(solid, 1), edgeMat));
           } catch {
-            // degenerate slice — skip
+            // degenerate slice - skip
           }
         }
         group = g;

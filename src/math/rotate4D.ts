@@ -11,7 +11,7 @@ const PLANE_AXES: Record<RotationPlane, [number, number]> = {
 
 /**
  * Rotate a set of 4D vertices in one of the 6 coordinate planes.
- * In 4D you rotate in a plane, not around an axis — XY/XZ/YZ behave like
+ * In 4D you rotate in a plane, not around an axis - XY/XZ/YZ behave like
  * familiar 3D rotation (W is untouched); XW/YW/ZW are the uniquely-4D ones.
  */
 export function rotate4D(vertices: Vec4[], plane: RotationPlane, angle: number): Vec4[] {

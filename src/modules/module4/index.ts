@@ -25,7 +25,7 @@ const SHAPES: ShapeKind[] = ['tesseract', 'fiveCell', 'sixteenCell', 'hyperspher
 const TEMPLATE = `
   <div class="module">
     <header class="module-header">
-      <h1>Module 4 &mdash; Playground</h1>
+      <h1>Module 4 - Playground</h1>
       <p>
         Everything from Modules 0&ndash;3 wired together. Pick any of four 4D
         shapes, flip between cross-section and projection, spin all six rotation
@@ -72,7 +72,7 @@ const TEMPLATE = `
       <div class="rot-section">
         <div class="rot-section-header">
           <span class="rot-section-title">Familiar planes</span>
-          <span class="rot-section-sub">W untouched &mdash; ordinary 3D rotation</span>
+          <span class="rot-section-sub">W untouched - ordinary 3D rotation</span>
         </div>
         ${FAMILIAR_PLANES.map(rotationRow).join('')}
       </div>
@@ -80,7 +80,7 @@ const TEMPLATE = `
       <div class="rot-section">
         <div class="rot-section-header">
           <span class="rot-section-title rot-section-title-alien">Alien planes</span>
-          <span class="rot-section-sub">W changes &mdash; unique to 4D</span>
+          <span class="rot-section-sub">W changes - unique to 4D</span>
         </div>
         ${ALIEN_PLANES.map(rotationRow).join('')}
       </div>

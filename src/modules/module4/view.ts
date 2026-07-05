@@ -41,7 +41,7 @@ const zeroAngles = (): PlaneAngles => ({ XY: 0, XZ: 0, YZ: 0, XW: 0, YW: 0, ZW: 
  * The consolidation view: same polytope, either rendered as its 3D cross-section
  * at w=k (Module 1 style) or as its 4D->3D perspective projection (Module 2/3
  * style). All six rotation planes accumulate independently. Toggle mode, shape,
- * slice, camera distance, and the six speeds — everything at once.
+ * slice, camera distance, and the six speeds - everything at once.
  */
 export function createModule4View(container: HTMLElement): Module4View {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -69,7 +69,7 @@ export function createModule4View(container: HTMLElement): Module4View {
   scene.add(key);
   scene.add(new THREE.AxesHelper(1.4));
 
-  // Projection group — reused Module 2/3 pattern: vertex-colored buffers.
+  // Projection group - reused Module 2/3 pattern: vertex-colored buffers.
   const projGroup = new THREE.Group();
   const projEdgeMat = new THREE.LineBasicMaterial({ vertexColors: true });
   const projVertMat = new THREE.PointsMaterial({
@@ -85,7 +85,7 @@ export function createModule4View(container: HTMLElement): Module4View {
   projGroup.add(projVerts);
   scene.add(projGroup);
 
-  // Cross-section group — rebuilt each frame (small vertex counts, fine).
+  // Cross-section group - rebuilt each frame (small vertex counts, fine).
   const csGroup = new THREE.Group();
   scene.add(csGroup);
   const csSolidMat = new THREE.MeshStandardMaterial({
@@ -220,7 +220,7 @@ export function createModule4View(container: HTMLElement): Module4View {
       csGroup.add(new THREE.Mesh(solid, csSolidMat));
       csGroup.add(new THREE.LineSegments(new THREE.EdgesGeometry(solid, 1), csEdgeMat));
     } catch {
-      // degenerate — skip
+      // degenerate - skip
     }
   }
 

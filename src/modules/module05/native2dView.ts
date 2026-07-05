@@ -5,7 +5,7 @@ export interface Native2DView {
   dispose(): void;
 }
 
-/** Renders the user's chosen 2D shape — fully visible, "as a 2D being sees it". */
+/** Renders the user's chosen 2D shape - fully visible, "as a 2D being sees it". */
 export function createNative2DView(container: HTMLElement): Native2DView {
   const canvas = document.createElement('canvas');
   container.appendChild(canvas);

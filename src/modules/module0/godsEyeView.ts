@@ -14,7 +14,7 @@ export interface GodsEyeView {
  * cross-section curve where they meet. The user can orbit the camera to see
  * the relationship from any angle.
  *
- * Slicing is along the Y axis (vertical), so the plane is horizontal —
+ * Slicing is along the Y axis (vertical), so the plane is horizontal -
  * intuitively "a sheet at altitude y that the shape sits halfway through".
  */
 export function createGodsEyeView(container: HTMLElement): GodsEyeView {

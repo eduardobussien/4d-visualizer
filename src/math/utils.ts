@@ -1,4 +1,4 @@
-/** Remove near-duplicate points (within eps) — cross-sections often double up at shared vertices. */
+/** Remove near-duplicate points (within eps) - cross-sections often double up at shared vertices. */
 export function dedupePoints(points: number[][], eps: number = 1e-6): number[][] {
   const out: number[][] = [];
   for (const p of points) {

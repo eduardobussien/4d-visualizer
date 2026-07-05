@@ -12,7 +12,7 @@ export interface Raised4DView {
 
 /**
  * Renders the 4D-raised shape as a 3D cross-section at w = currentW.
- * This is the "best a 3D being can see" — directly previewing how Module 1
+ * This is the "best a 3D being can see" - directly previewing how Module 1
  * will reveal the tesseract, but applied to whatever shape the user built.
  *
  * Math (x, y, z) at w = currentW maps straight to display (x, y, z).

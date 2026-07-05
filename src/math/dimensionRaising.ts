@@ -2,12 +2,12 @@ import type { Polytope } from './types';
 
 /**
  * Extrude a shape from dimension n to dimension n+1.
- * Every vertex is duplicated — one copy at new-axis = 0, another at new-axis = height.
+ * Every vertex is duplicated - one copy at new-axis = 0, another at new-axis = height.
  * Corresponding vertices are connected, giving:
  *   square (4v, 4e) -> cube (8v, 12e)
  *   cube   (8v, 12e) -> tesseract (16v, 32e)
  *
- * Dimension-agnostic on purpose — the same operation that raises a square to a
+ * Dimension-agnostic on purpose - the same operation that raises a square to a
  * cube also raises a cube to a tesseract. That's the Module 0.5 lesson.
  */
 export function extrude(shape: Polytope, height: number = 1): Polytope {
@@ -30,7 +30,7 @@ export function extrude(shape: Polytope, height: number = 1): Polytope {
  *   triangle    (3v, 3e) -> tetrahedron (4v, 6e)
  *   tetrahedron (4v, 6e) -> 5-cell      (5v, 10e)
  *
- * Like extrude, the same function works at any dimension — that's the point.
+ * Like extrude, the same function works at any dimension - that's the point.
  */
 export function cone(shape: Polytope, apexHeight: number = 1): Polytope {
   const n = shape.vertices.length;

@@ -26,7 +26,7 @@ export interface Module2View {
  * tesseract emerges automatically from x' = x / (d - w) on each vertex,
  * applied every frame after an XW rotation.
  *
- * Edges are colored by their endpoint's rotated W value — warm pink for
+ * Edges are colored by their endpoint's rotated W value - warm pink for
  * near-in-4D, cool blue for far. That keeps the dimension we just collapsed
  * visible as a hue, so the projection feels like a shadow that "remembers"
  * the depth it lost rather than an arbitrary diagram.

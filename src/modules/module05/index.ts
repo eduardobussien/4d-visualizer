@@ -8,11 +8,11 @@ import type { Operation, PresetKind } from './types';
 const TEMPLATE = `
   <div class="module">
     <header class="module-header">
-      <h1>Module 0.5 — Build Your Own</h1>
+      <h1>Module 0.5 - Build Your Own</h1>
       <p>
         Pick a 2D shape. Raise it through the dimensions. The same operation
         that turns your flat polygon into a 3D solid takes that 3D solid into a
-        4D one — there's nothing categorically new about the second step.
+        4D one - there's nothing categorically new about the second step.
       </p>
     </header>
 
@@ -20,17 +20,17 @@ const TEMPLATE = `
       <section class="view-panel">
         <h2>Your shape (2D)</h2>
         <div class="view-canvas" id="m05-native"></div>
-        <p class="caption muted" id="m05-native-caption">&mdash;</p>
+        <p class="caption muted" id="m05-native-caption">-</p>
       </section>
       <section class="view-panel">
         <h2>Raised to 3D</h2>
         <div class="view-canvas" id="m05-raised3d"></div>
-        <p class="caption" id="m05-raised3d-caption">&mdash;</p>
+        <p class="caption" id="m05-raised3d-caption">-</p>
       </section>
       <section class="view-panel">
-        <h2>Raised to 4D — sliced into 3D</h2>
+        <h2>Raised to 4D - sliced into 3D</h2>
         <div class="view-canvas" id="m05-raised4d"></div>
-        <p class="caption" id="m05-raised4d-caption">&mdash;</p>
+        <p class="caption" id="m05-raised4d-caption">-</p>
       </section>
     </div>
 
@@ -105,7 +105,7 @@ export function mountModule05(root: HTMLElement): () => void {
   buildPresetButtons(presetsRow, currentPreset);
 
   function shapeName(kind: PresetKind, op: Operation, dim: 3 | 4): string {
-    // Just descriptive names — accurate where it's obvious.
+    // Just descriptive names - accurate where it's obvious.
     if (op === 'extrude') {
       if (kind === 'square' && dim === 3) return 'cube';
       if (kind === 'square' && dim === 4) return 'tesseract';
@@ -127,9 +127,9 @@ export function mountModule05(root: HTMLElement): () => void {
     raised4D.setShape(r4);
     raised4D.setSlicePosition(currentW);
 
-    nativeCaption.textContent = `${PRESET_LABEL[currentPreset]} — ${shape2D.vertices.length} vertices`;
-    raised3DCaption.textContent = `${shapeName(currentPreset, currentOp, 3)} — ${r3.vertices.length}v, ${r3.edges.length}e`;
-    raised4DCaption.textContent = `${shapeName(currentPreset, currentOp, 4)} sliced at w=${currentW.toFixed(2)} — ${r4.vertices.length}v, ${r4.edges.length}e in 4D`;
+    nativeCaption.textContent = `${PRESET_LABEL[currentPreset]} - ${shape2D.vertices.length} vertices`;
+    raised3DCaption.textContent = `${shapeName(currentPreset, currentOp, 3)} - ${r3.vertices.length}v, ${r3.edges.length}e`;
+    raised4DCaption.textContent = `${shapeName(currentPreset, currentOp, 4)} sliced at w=${currentW.toFixed(2)} - ${r4.vertices.length}v, ${r4.edges.length}e in 4D`;
     slice3DValue.textContent = `y = ${currentY.toFixed(2)}`;
     slice4DValue.textContent = `w = ${currentW.toFixed(2)}`;
   }
@@ -165,7 +165,7 @@ export function mountModule05(root: HTMLElement): () => void {
     raised4D.setSlicePosition(currentW);
     slice4DValue.textContent = `w = ${currentW.toFixed(2)}`;
     const r4 = raise(PRESETS[currentPreset], currentOp).raised4D;
-    raised4DCaption.textContent = `${shapeName(currentPreset, currentOp, 4)} sliced at w=${currentW.toFixed(2)} — ${r4.vertices.length}v, ${r4.edges.length}e in 4D`;
+    raised4DCaption.textContent = `${shapeName(currentPreset, currentOp, 4)} sliced at w=${currentW.toFixed(2)} - ${r4.vertices.length}v, ${r4.edges.length}e in 4D`;
   });
 
   syncAll();

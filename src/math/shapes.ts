@@ -76,7 +76,7 @@ export const TESSERACT: Polytope4D = (() => {
 
 /**
  * 16-cell (cross-polytope): 8 vertices at (+/-1) along each of the 4 axes,
- * every non-antipodal pair connected — 24 edges total. Dual of the tesseract.
+ * every non-antipodal pair connected - 24 edges total. Dual of the tesseract.
  */
 export const SIXTEEN_CELL: Polytope4D = (() => {
   const vertices: Vec4[] = [];
@@ -90,7 +90,7 @@ export const SIXTEEN_CELL: Polytope4D = (() => {
   const edges: [number, number][] = [];
   for (let i = 0; i < 8; i++) {
     for (let j = i + 1; j < 8; j++) {
-      if (j === (i ^ 1)) continue; // antipodal — no edge
+      if (j === (i ^ 1)) continue; // antipodal - no edge
       edges.push([i, j]);
     }
   }
@@ -99,7 +99,7 @@ export const SIXTEEN_CELL: Polytope4D = (() => {
 
 /**
  * Regular 5-cell (4-simplex): 5 vertices, all pairwise edges (10 edges).
- * Vertices are placed symmetrically on the unit 3-sphere — the canonical
+ * Vertices are placed symmetrically on the unit 3-sphere - the canonical
  * "tetrahedron + apex" construction normalized to unit radius.
  */
 export const FIVE_CELL: Polytope4D = (() => {

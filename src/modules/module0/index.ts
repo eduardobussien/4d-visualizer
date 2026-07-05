@@ -6,10 +6,10 @@ import type { ShapeKind } from './types';
 const TEMPLATE = `
   <div class="module">
     <header class="module-header">
-      <h1>Module 0 — Flatland Warmup</h1>
+      <h1>Module 0 - Flatland Warmup</h1>
       <p>
         A 3D shape passes through a 2D plane. A flat being living in that plane
-        only sees the slice — a circle, a square, growing and shrinking. You see
+        only sees the slice - a circle, a square, growing and shrinking. You see
         the whole story. Same trick, one dimension up, is how a 4D shape will
         eventually reveal itself to you in Module 1.
       </p>
@@ -19,7 +19,7 @@ const TEMPLATE = `
       <section class="view-panel">
         <h2>What a 2D being sees</h2>
         <div class="view-canvas" id="m0-flat"></div>
-        <p class="caption" id="m0-caption">&mdash;</p>
+        <p class="caption" id="m0-caption">-</p>
       </section>
       <section class="view-panel">
         <h2>God's-eye view (3D)</h2>
@@ -65,11 +65,11 @@ export function mountModule0(root: HTMLElement): () => void {
     if (currentShape === 'sphere') {
       const r = sphereCrossSectionRadius(1, currentY);
       return r <= 0
-        ? 'nothing — the plane is outside the sphere'
+        ? 'nothing - the plane is outside the sphere'
         : `a circle, radius ${r.toFixed(2)}`;
     }
     if (currentY <= -1 || currentY >= 1) {
-      return 'nothing — the plane is outside the cube';
+      return 'nothing - the plane is outside the cube';
     }
     return 'a square, side 2.00';
   }

@@ -11,7 +11,7 @@ export interface Raised3DView {
 }
 
 /**
- * Renders the 2D shape raised to 3D — same role as Module 0's god's-eye
+ * Renders the 2D shape raised to 3D - same role as Module 0's god's-eye
  * view but for whatever shape the user built. The slicing plane and the
  * cross-section curve let a 2D being's view (what they'd see in the slice)
  * stay grounded in the 3D structure.
@@ -98,7 +98,7 @@ export function createRaised3DView(container: HTMLElement): Raised3DView {
       const solidGeom = new ConvexGeometry(points);
       group.add(new THREE.Mesh(solidGeom, solidMat));
     } catch {
-      // degenerate (coplanar) — skip the solid, the wireframe is still informative
+      // degenerate (coplanar) - skip the solid, the wireframe is still informative
     }
 
     const positions: number[] = [];

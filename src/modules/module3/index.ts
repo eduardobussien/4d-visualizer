@@ -16,10 +16,10 @@ function rotationRow(plane: RotationPlane): string {
 const TEMPLATE = `
   <div class="module">
     <header class="module-header">
-      <h1>Module 3 &mdash; Six Rotation Planes</h1>
+      <h1>Module 3 - Six Rotation Planes</h1>
       <p>
         In 3D you rotate around an <em>axis</em>. In 4D you rotate in a <em>plane</em>,
-        and there are six of them. Three (XY, XZ, YZ) leave the W axis alone &mdash;
+        and there are six of them. Three (XY, XZ, YZ) leave the W axis alone -
         the shape just spins like an ordinary 3D object. The other three (XW, YW, ZW)
         change which W each vertex has, so the projected shape morphs in a way that
         has no 3D analog. Turn one of each on at low speed and feel the difference.
@@ -51,7 +51,7 @@ const TEMPLATE = `
       <div class="rot-section">
         <div class="rot-section-header">
           <span class="rot-section-title">Familiar planes</span>
-          <span class="rot-section-sub">W untouched &mdash; looks like ordinary 3D rotation</span>
+          <span class="rot-section-sub">W untouched - looks like ordinary 3D rotation</span>
         </div>
         ${FAMILIAR_PLANES.map(rotationRow).join('')}
       </div>
@@ -59,7 +59,7 @@ const TEMPLATE = `
       <div class="rot-section">
         <div class="rot-section-header">
           <span class="rot-section-title rot-section-title-alien">Alien planes</span>
-          <span class="rot-section-sub">W changes &mdash; no 3D analog, the projection morphs</span>
+          <span class="rot-section-sub">W changes - no 3D analog, the projection morphs</span>
         </div>
         ${ALIEN_PLANES.map(rotationRow).join('')}
       </div>

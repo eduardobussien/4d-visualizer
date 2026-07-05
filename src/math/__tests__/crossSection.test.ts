@@ -21,7 +21,7 @@ describe('crossSection', () => {
   });
 });
 
-describe('crossSection — 3D cube (Module 0)', () => {
+describe('crossSection - 3D cube (Module 0)', () => {
   it('cube sliced at z=0 gives 4 points forming a unit square in 2D', () => {
     const pts = crossSection(CUBE, 0);
     expect(pts.length).toBe(4);
