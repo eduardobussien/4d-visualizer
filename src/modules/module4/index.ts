@@ -25,7 +25,7 @@ const SHAPES: ShapeKind[] = ['tesseract', 'fiveCell', 'sixteenCell', 'hyperspher
 const TEMPLATE = `
   <div class="module">
     <header class="module-header">
-      <h1>Module 4 - Playground</h1>
+      <h1>Playground</h1>
       <p>
         Everything from Modules 0&ndash;3 wired together. Pick any of four 4D
         shapes, flip between cross-section and projection, spin all six rotation

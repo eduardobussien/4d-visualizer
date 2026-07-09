@@ -16,7 +16,7 @@ function rotationRow(plane: RotationPlane): string {
 const TEMPLATE = `
   <div class="module">
     <header class="module-header">
-      <h1>Module 3 - Six Rotation Planes</h1>
+      <h1>Six Rotation Planes</h1>
       <p>
         In 3D you rotate around an <em>axis</em>. In 4D you rotate in a <em>plane</em>,
         and there are six of them. Three (XY, XZ, YZ) leave the W axis alone -

@@ -6,7 +6,7 @@ import type { ShapeKind } from './types';
 const TEMPLATE = `
   <div class="module">
     <header class="module-header">
-      <h1>Module 0 - Flatland Warmup</h1>
+      <h1>Flatland Warmup</h1>
       <p>
         A 3D shape passes through a 2D plane. A flat being living in that plane
         only sees the slice - a circle, a square, growing and shrinking. You see

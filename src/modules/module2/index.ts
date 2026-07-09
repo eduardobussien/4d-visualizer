@@ -4,7 +4,7 @@ import type { ShapeKind } from './types';
 const TEMPLATE = `
   <div class="module">
     <header class="module-header">
-      <h1>Module 2 - Projection Mode</h1>
+      <h1>Projection Mode</h1>
       <p>
         The same 4D shape, but now flattened into 3D as a "shadow" - perspective
         projection: <code>x' = x / (d - w)</code>. Vertices farther in W shrink,

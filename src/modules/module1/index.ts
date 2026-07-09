@@ -5,7 +5,7 @@ import type { ShapeKind } from './types';
 const TEMPLATE = `
   <div class="module">
     <header class="module-header">
-      <h1>Module 1 - Tesseract Cross-Sections</h1>
+      <h1>Tesseract Cross-Sections</h1>
       <p>
         A 4D shape passes through your 3D space. You only ever see the slice.
         For a hypersphere it grows from a point, peaks, and shrinks back.
