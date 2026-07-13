@@ -37,7 +37,7 @@ const TEMPLATE = `
       <section class="view-panel">
         <h2>Playground view</h2>
         <div class="view-canvas" id="m4-view"></div>
-        <p class="caption muted">drag to orbit the camera</p>
+        <p class="caption muted" id="m4-caption">drag to orbit the camera</p>
       </section>
     </div>
 
@@ -101,6 +101,7 @@ export function mountModule4(root: HTMLElement): () => void {
   root.innerHTML = TEMPLATE;
 
   const viewContainer = root.querySelector('#m4-view') as HTMLElement;
+  const caption = root.querySelector('#m4-caption') as HTMLElement;
   const shapeButtons = Array.from(root.querySelectorAll<HTMLButtonElement>('#m4-shapes button'));
   const modeButtons = Array.from(root.querySelectorAll<HTMLButtonElement>('#m4-modes button'));
   const distance = root.querySelector('#m4-distance') as HTMLInputElement;
@@ -133,6 +134,15 @@ export function mountModule4(root: HTMLElement): () => void {
     sliceRow.classList.toggle('hidden', currentMode !== 'crossSection');
   }
 
+  function updateCaption(): void {
+    if (currentShape === 'hypersphere') {
+      caption.textContent =
+        'rotation has no visible effect - a hypersphere is 4D-symmetric. drag to orbit the camera.';
+    } else {
+      caption.textContent = 'drag to orbit the camera';
+    }
+  }
+
   function updateModeAvailability(): void {
     modeButtons.forEach((b) => {
       const m = b.dataset.mode as Mode;
@@ -157,6 +167,7 @@ export function mountModule4(root: HTMLElement): () => void {
       shapeButtons.forEach((b) => b.classList.toggle('active', b === btn));
       view.setShape(kind);
       updateModeAvailability();
+      updateCaption();
       if (kind === 'hypersphere' && currentMode === 'projection') setMode('crossSection');
     });
   });
@@ -206,6 +217,7 @@ export function mountModule4(root: HTMLElement): () => void {
   view.setSlicePosition(parseFloat(slice.value));
   updateModeVisibility();
   updateModeAvailability();
+  updateCaption();
 
   return () => {
     view.dispose();

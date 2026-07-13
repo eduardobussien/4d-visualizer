@@ -5,7 +5,13 @@ import { crossSection, type Polytope } from '../../math';
 import { dedupePoints } from './geometry';
 
 export interface Raised4DView {
-  setShape(raised4D: Polytope): void;
+  /**
+   * Set the raised 4D polytope. `pointsOnly` renders the cross-section as raw
+   * vertex points instead of running ConvexGeometry - use for custom shapes
+   * whose cross-section may be non-convex, where a convex hull would silently
+   * wrong-shape the render.
+   */
+  setShape(raised4D: Polytope, pointsOnly?: boolean): void;
   setSlicePosition(w: number): void;
   dispose(): void;
 }
@@ -57,6 +63,7 @@ export function createRaised4DView(container: HTMLElement): Raised4DView {
   let sliceGroup: THREE.Group | null = null;
   let currentRaised4D: Polytope | null = null;
   let currentW = 0;
+  let pointsOnlyMode = false;
 
   function clearSlice(): void {
     if (!sliceGroup) return;
@@ -84,7 +91,10 @@ export function createRaised4DView(container: HTMLElement): Raised4DView {
     const group = new THREE.Group();
     const vectors = points3D.map(([x, y, z]) => new THREE.Vector3(x, y, z));
 
-    if (vectors.length >= 4) {
+    if (pointsOnlyMode || vectors.length < 4) {
+      const ptsGeom = new THREE.BufferGeometry().setFromPoints(vectors);
+      group.add(new THREE.Points(ptsGeom, pointMat));
+    } else {
       try {
         const solid = new ConvexGeometry(vectors);
         group.add(new THREE.Mesh(solid, solidMat));
@@ -94,9 +104,6 @@ export function createRaised4DView(container: HTMLElement): Raised4DView {
         const ptsGeom = new THREE.BufferGeometry().setFromPoints(vectors);
         group.add(new THREE.Points(ptsGeom, pointMat));
       }
-    } else {
-      const ptsGeom = new THREE.BufferGeometry().setFromPoints(vectors);
-      group.add(new THREE.Points(ptsGeom, pointMat));
     }
 
     sliceGroup = group;
@@ -122,8 +129,9 @@ export function createRaised4DView(container: HTMLElement): Raised4DView {
   tick();
 
   return {
-    setShape(raised4D) {
+    setShape(raised4D, pointsOnly = false) {
       currentRaised4D = raised4D;
+      pointsOnlyMode = pointsOnly;
       rebuildSlice();
     },
     setSlicePosition(w) {

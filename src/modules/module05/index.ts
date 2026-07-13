@@ -166,9 +166,12 @@ export function mountModule05(root: HTMLElement): () => void {
     }
     const { raised3D: r3, raised4D: r4 } = raise(shape2D, currentOp);
     if (currentSource !== 'custom') native.setShape(shape2D);
-    raised3D.setShape(r3);
+    // Custom polygons may be non-convex; skip ConvexGeometry to avoid
+    // silently rewriting them as their convex hull.
+    const custom = currentSource === 'custom';
+    raised3D.setShape(r3, custom);
     raised3D.setSlicePosition(currentY);
-    raised4D.setShape(r4);
+    raised4D.setShape(r4, custom);
     raised4D.setSlicePosition(currentW);
     renderCaptions(shape2D, r3, r4);
   }

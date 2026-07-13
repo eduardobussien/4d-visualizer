@@ -5,7 +5,12 @@ import { crossSection, type Polytope } from '../../math';
 import { dedupePoints, orderConvexPolygon } from './geometry';
 
 export interface Raised3DView {
-  setShape(raised3D: Polytope): void;
+  /**
+   * Set the raised 3D polytope. `wireframeOnly` skips the ConvexGeometry solid,
+   * which would otherwise silently rewrite a non-convex custom shape as its
+   * convex hull. The wireframe from polytope.edges stays accurate either way.
+   */
+  setShape(raised3D: Polytope, wireframeOnly?: boolean): void;
   setSlicePosition(y: number): void;
   dispose(): void;
 }
@@ -70,6 +75,7 @@ export function createRaised3DView(container: HTMLElement): Raised3DView {
   let curveLine: THREE.Line | null = null;
   let currentRaised3D: Polytope | null = null;
   let currentY = 0;
+  let wireframeOnly = false;
 
   function disposeObject(obj: THREE.Object3D): void {
     obj.traverse((child) => {
@@ -93,12 +99,14 @@ export function createRaised3DView(container: HTMLElement): Raised3DView {
     if (!currentRaised3D || currentRaised3D.vertices.length < 4) return;
     const group = new THREE.Group();
 
-    const points = currentRaised3D.vertices.map(toDisplay);
-    try {
-      const solidGeom = new ConvexGeometry(points);
-      group.add(new THREE.Mesh(solidGeom, solidMat));
-    } catch {
-      // degenerate (coplanar) - skip the solid, the wireframe is still informative
+    if (!wireframeOnly) {
+      const points = currentRaised3D.vertices.map(toDisplay);
+      try {
+        const solidGeom = new ConvexGeometry(points);
+        group.add(new THREE.Mesh(solidGeom, solidMat));
+      } catch {
+        // degenerate (coplanar) - skip the solid, the wireframe is still informative
+      }
     }
 
     const positions: number[] = [];
@@ -151,8 +159,9 @@ export function createRaised3DView(container: HTMLElement): Raised3DView {
   tick();
 
   return {
-    setShape(raised3D) {
+    setShape(raised3D, wireOnly = false) {
       currentRaised3D = raised3D;
+      wireframeOnly = wireOnly;
       rebuildShape();
       rebuildCurve();
     },
