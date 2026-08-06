@@ -9,20 +9,20 @@ const TEMPLATE = `
       <h1>Flatland Warmup</h1>
       <p>
         A 3D shape passes through a 2D plane. A flat being living in that plane
-        only sees the slice - a circle, a square, growing and shrinking. You see
-        the whole story. Same trick, one dimension up, is how a 4D shape will
-        eventually reveal itself to you in Module 1.
+        only ever sees the slice: a circle, a square, growing and shrinking.
+        The 3D view on the right shows the whole story. This same trick, one
+        dimension up, is how a 4D shape reveals itself in the Tesseract tab.
       </p>
     </header>
 
     <div class="views">
       <section class="view-panel">
-        <h2>What a 2D being sees</h2>
+        <h2>The 2D slice</h2>
         <div class="view-canvas" id="m0-flat"></div>
-        <p class="caption" id="m0-caption">-</p>
+        <p class="caption" id="m0-caption"></p>
       </section>
       <section class="view-panel">
-        <h2>God's-eye view (3D)</h2>
+        <h2>The 3D scene</h2>
         <div class="view-canvas" id="m0-gods-eye"></div>
         <p class="caption muted">drag to rotate the camera</p>
       </section>
@@ -65,11 +65,11 @@ export function mountModule0(root: HTMLElement): () => void {
     if (currentShape === 'sphere') {
       const r = sphereCrossSectionRadius(1, currentY);
       return r <= 0
-        ? 'nothing - the plane is outside the sphere'
+        ? 'nothing: the plane is outside the sphere'
         : `a circle, radius ${r.toFixed(2)}`;
     }
     if (currentY <= -1 || currentY >= 1) {
-      return 'nothing - the plane is outside the cube';
+      return 'nothing: the plane is outside the cube';
     }
     return 'a square, side 2.00';
   }

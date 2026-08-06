@@ -27,9 +27,12 @@ const TEMPLATE = `
     <header class="module-header">
       <h1>Playground</h1>
       <p>
-        Everything from Modules 0&ndash;3 wired together. Pick any of four 4D
-        shapes, flip between cross-section and projection, spin all six rotation
-        planes at once. This is where you stop being guided and just play.
+        Everything from the previous tabs together. Pick any of four 4D shapes,
+        flip between slice and shadow, spin any of the six rotation planes at
+        once. Three of the planes (XY, XZ, YZ) leave W alone and look like
+        ordinary 3D rotation. The other three (XW, YW, ZW) change W and morph
+        the shape in ways with no 3D analog. Turn one of each on to feel the
+        difference. Free exploration lives here.
       </p>
     </header>
 
@@ -72,7 +75,7 @@ const TEMPLATE = `
       <div class="rot-section">
         <div class="rot-section-header">
           <span class="rot-section-title">Familiar planes</span>
-          <span class="rot-section-sub">W untouched - ordinary 3D rotation</span>
+          <span class="rot-section-sub">W untouched, ordinary 3D rotation</span>
         </div>
         ${FAMILIAR_PLANES.map(rotationRow).join('')}
       </div>
@@ -80,7 +83,7 @@ const TEMPLATE = `
       <div class="rot-section">
         <div class="rot-section-header">
           <span class="rot-section-title rot-section-title-alien">Alien planes</span>
-          <span class="rot-section-sub">W changes - unique to 4D</span>
+          <span class="rot-section-sub">W changes, unique to 4D</span>
         </div>
         ${ALIEN_PLANES.map(rotationRow).join('')}
       </div>
@@ -137,7 +140,7 @@ export function mountModule4(root: HTMLElement): () => void {
   function updateCaption(): void {
     if (currentShape === 'hypersphere') {
       caption.textContent =
-        'rotation has no visible effect - a hypersphere is 4D-symmetric. drag to orbit the camera.';
+        'rotation has no visible effect: a hypersphere is 4D-symmetric. drag to orbit the camera.';
     } else {
       caption.textContent = 'drag to orbit the camera';
     }

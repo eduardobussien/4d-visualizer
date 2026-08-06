@@ -7,10 +7,10 @@ const TEMPLATE = `
     <header class="module-header">
       <h1>Tesseract Cross-Sections</h1>
       <p>
-        A 4D shape passes through your 3D space. You only ever see the slice.
-        For a hypersphere it grows from a point, peaks, and shrinks back.
+        A 4D shape passes through 3D space. Only the slice is ever visible.
+        For a hypersphere it grows from a point, peaks, then shrinks back.
         For a tesseract with 4D rotation, the slice morphs through a sequence
-        of polyhedra - that morphing is the 4D experience for a 3D being.
+        of polyhedra, and that morphing is the 4D experience for a 3D being.
       </p>
     </header>
 
@@ -65,13 +65,13 @@ export function mountModule1(root: HTMLElement): () => void {
     if (empty) {
       caption.textContent =
         currentShape === 'hypersphere'
-          ? 'nothing - the slice is outside the hypersphere'
-          : 'nothing - the slice is outside the tesseract';
+          ? 'nothing: the slice is outside the hypersphere'
+          : 'nothing: the slice is outside the tesseract';
       return;
     }
     if (currentShape === 'hypersphere') {
       const r = sphereCrossSectionRadius(1, currentW);
-      caption.textContent = `sphere, radius ${r.toFixed(3)} (rotation is invisible - a hypersphere is 4D-symmetric)`;
+      caption.textContent = `sphere, radius ${r.toFixed(3)} (rotation has no visible effect: a hypersphere is 4D-symmetric)`;
     } else {
       const deg = ((currentAngle * 180) / Math.PI).toFixed(0);
       caption.textContent = `cross-section: ${vertexCount} vertices · XW angle ${deg}°`;

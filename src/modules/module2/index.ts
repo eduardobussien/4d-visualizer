@@ -6,12 +6,12 @@ const TEMPLATE = `
     <header class="module-header">
       <h1>Projection Mode</h1>
       <p>
-        The same 4D shape, but now flattened into 3D as a "shadow" - perspective
-        projection: <code>x' = x / (d - w)</code>. Vertices farther in W shrink,
-        like distant objects shrink in a photo. The cube-in-a-cube tesseract is
-        just this rule applied to a 4D cube, with the inner cube being the side
-        farther in W. Hue encodes the W coordinate that the projection threw
-        away.
+        The same 4D shape, but flattened into 3D as a "shadow." Perspective
+        projection: <code>x' = x / (d &minus; w)</code>. Vertices farther in W
+        shrink, the way distant objects shrink in a photo. The cube-in-a-cube
+        tesseract is just this rule applied to a 4D cube, with the inner cube
+        being the side farther in W. Hue encodes the W coordinate the
+        projection threw away.
       </p>
     </header>
 

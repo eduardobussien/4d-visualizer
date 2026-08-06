@@ -10,30 +10,30 @@ type ShapeSource = PresetKind | 'custom';
 const TEMPLATE = `
   <div class="module">
     <header class="module-header">
-      <h1>Build Your Own</h1>
+      <h1>Build &amp; Raise</h1>
       <p>
-        Pick a 2D shape or draw your own. Raise it through the dimensions. The
-        same operation that turns your flat polygon into a 3D solid takes that
-        3D solid into a 4D one - there's nothing categorically new about the
-        second step.
+        Pick a 2D shape, or draw a new one. Raise it through the dimensions.
+        The same operation that lifts a flat polygon into a 3D solid takes
+        that 3D solid into a 4D one; there's nothing categorically new about
+        the second step.
       </p>
     </header>
 
     <div class="views views-3col">
       <section class="view-panel">
-        <h2>Your shape (2D)</h2>
+        <h2>The shape (2D)</h2>
         <div class="view-canvas" id="m05-native"></div>
-        <p class="caption muted" id="m05-native-caption">-</p>
+        <p class="caption muted" id="m05-native-caption"></p>
       </section>
       <section class="view-panel">
         <h2>Raised to 3D</h2>
         <div class="view-canvas" id="m05-raised3d"></div>
-        <p class="caption" id="m05-raised3d-caption">-</p>
+        <p class="caption" id="m05-raised3d-caption"></p>
       </section>
       <section class="view-panel">
-        <h2>Raised to 4D - sliced into 3D</h2>
+        <h2>Raised to 4D, sliced into 3D</h2>
         <div class="view-canvas" id="m05-raised4d"></div>
-        <p class="caption" id="m05-raised4d-caption">-</p>
+        <p class="caption" id="m05-raised4d-caption"></p>
       </section>
     </div>
 
@@ -118,8 +118,8 @@ export function mountModule05(root: HTMLElement): () => void {
   function shapeName(source: ShapeSource, op: Operation, dim: 3 | 4): string {
     if (source === 'custom') {
       return op === 'extrude'
-        ? `your shape extruded ${dim - 2}x`
-        : `your shape coned ${dim - 2}x`;
+        ? `the shape extruded ${dim - 2}x`
+        : `the shape coned ${dim - 2}x`;
     }
     if (op === 'extrude') {
       if (source === 'square' && dim === 3) return 'cube';
@@ -146,11 +146,11 @@ export function mountModule05(root: HTMLElement): () => void {
       return;
     }
     const label = currentSource === 'custom' ? 'Custom' : PRESET_LABEL[currentSource];
-    nativeCaption.textContent = `${label} - ${shape2D.vertices.length} vertices`;
+    nativeCaption.textContent = `${label}: ${shape2D.vertices.length} vertices`;
     if (r3)
-      raised3DCaption.textContent = `${shapeName(currentSource, currentOp, 3)} - ${r3.vertices.length}v, ${r3.edges.length}e`;
+      raised3DCaption.textContent = `${shapeName(currentSource, currentOp, 3)}: ${r3.vertices.length}v, ${r3.edges.length}e`;
     if (r4)
-      raised4DCaption.textContent = `${shapeName(currentSource, currentOp, 4)} sliced at w=${currentW.toFixed(2)} - ${r4.vertices.length}v, ${r4.edges.length}e in 4D`;
+      raised4DCaption.textContent = `${shapeName(currentSource, currentOp, 4)} sliced at w=${currentW.toFixed(2)}: ${r4.vertices.length}v, ${r4.edges.length}e in 4D`;
   }
 
   function syncAll(): void {
@@ -223,7 +223,7 @@ export function mountModule05(root: HTMLElement): () => void {
     const shape2D = currentShape2D();
     if (shape2D) {
       const r4 = raise(shape2D, currentOp).raised4D;
-      raised4DCaption.textContent = `${shapeName(currentSource, currentOp, 4)} sliced at w=${currentW.toFixed(2)} - ${r4.vertices.length}v, ${r4.edges.length}e in 4D`;
+      raised4DCaption.textContent = `${shapeName(currentSource, currentOp, 4)} sliced at w=${currentW.toFixed(2)}: ${r4.vertices.length}v, ${r4.edges.length}e in 4D`;
     }
   });
 

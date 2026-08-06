@@ -70,16 +70,19 @@ html, body {
 }
 
 .module-header h1 {
-  margin: 0 0 0.4rem;
-  font-weight: 500;
-  font-size: 1.35rem;
+  margin: 0 0 0.6rem;
+  font-weight: 600;
+  font-size: 1.9rem;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  line-height: 1.15;
 }
 
 .module-header p {
   margin: 0;
   color: var(--muted);
-  max-width: 64ch;
-  font-size: 0.92rem;
+  max-width: 68ch;
+  font-size: 0.95rem;
 }
 
 .views {
