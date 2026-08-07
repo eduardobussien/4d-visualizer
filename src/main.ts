@@ -67,8 +67,13 @@ const nav = document.createElement('nav');
 nav.className = 'tabs';
 const content = document.createElement('div');
 content.className = 'route-content';
+const footer = document.createElement('footer');
+footer.className = 'site-footer';
+footer.innerHTML =
+  'built by <a href="https://github.com/eduardobussien" target="_blank" rel="noopener">Eduardo Bussien</a> · <a href="https://github.com/eduardobussien/4d-visualizer" target="_blank" rel="noopener">source on GitHub</a>';
 app.appendChild(nav);
 app.appendChild(content);
+app.appendChild(footer);
 
 let currentRoute: Route = currentHashRoute();
 let disposeCurrent: (() => void) | null = null;
