@@ -1,11 +1,12 @@
 import './styles.css';
+import { mountIntro } from './modules/intro';
 import { mountModule0 } from './modules/module0';
 import { mountModule05 } from './modules/module05';
 import { mountModule1 } from './modules/module1';
 import { mountModule2 } from './modules/module2';
 import { mountModule4 } from './modules/module4';
 
-type Route = 'module0' | 'module05' | 'module1' | 'module2' | 'module4';
+type Route = 'intro' | 'module0' | 'module05' | 'module1' | 'module2' | 'module4';
 
 interface RouteConfig {
   label: string;
@@ -15,6 +16,12 @@ interface RouteConfig {
 }
 
 const ROUTES: Record<Route, RouteConfig> = {
+  intro: {
+    label: 'About',
+    slug: 'about',
+    hint: 'What this project is and how to explore it.',
+    mount: mountIntro,
+  },
   module0: {
     label: 'Flatland',
     slug: 'flatland',
@@ -48,7 +55,7 @@ const ROUTES: Record<Route, RouteConfig> = {
 };
 
 const ORDER = Object.keys(ROUTES) as Route[];
-const DEFAULT_ROUTE: Route = 'module0';
+const DEFAULT_ROUTE: Route = 'intro';
 
 function slugToRoute(slug: string): Route | null {
   const entry = ORDER.find((r) => ROUTES[r].slug === slug);
