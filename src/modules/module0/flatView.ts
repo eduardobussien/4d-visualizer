@@ -53,7 +53,7 @@ export function createFlatView(container: HTMLElement): FlatView {
   function drawEmpty(): void {
     if (!ctx) return;
     ctx.fillStyle = '#5a6068';
-    ctx.font = '13px ui-monospace, SFMono-Regular, Menlo, monospace';
+    ctx.font = '13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('(plane outside the shape)', size / 2, size / 2);

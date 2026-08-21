@@ -6,6 +6,8 @@
   --accent: #8ab4f8;
   --accent-2: #ff7eb6;
   --border: #1d2127;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 * { box-sizing: border-box; }
@@ -13,10 +15,21 @@
 html, body {
   margin: 0;
   height: 100%;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--fg);
   line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Keep monospace where number alignment matters. */
+code,
+.value,
+.rot-label,
+.rot-speed,
+.rot-angle {
+  font-family: var(--font-mono);
 }
 
 #app {

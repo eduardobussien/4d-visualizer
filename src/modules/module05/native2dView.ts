@@ -118,7 +118,7 @@ export function createNative2DView(container: HTMLElement): Native2DView {
 
     // Hint text
     ctx.fillStyle = '#8a9099';
-    ctx.font = '12px ui-monospace, monospace';
+    ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
     let hint = 'Click to add your first vertex';
