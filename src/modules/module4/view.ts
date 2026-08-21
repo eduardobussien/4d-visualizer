@@ -13,6 +13,7 @@ import {
   type Polytope4D,
   type RotationPlane,
 } from '../../math';
+import { attachDragRotate4D } from '../../lib/dragRotate4D';
 import { ALL_PLANES, type Mode, type ShapeKind } from './types';
 
 const POLYTOPES: Record<Exclude<ShapeKind, 'hypersphere'>, Polytope4D> = {
@@ -268,6 +269,14 @@ export function createModule4View(container: HTMLElement): Module4View {
   }
   window.addEventListener('resize', handleResize);
 
+  const detachDrag = attachDragRotate4D(renderer.domElement, controls, (dxw, dyw) => {
+    if (currentShape === 'hypersphere') return;
+    angles.XW = (angles.XW + dxw) % (Math.PI * 2);
+    angles.YW = (angles.YW + dyw) % (Math.PI * 2);
+    updateAll();
+    anglesListener?.(angles);
+  });
+
   rebuildProjectionBuffers();
   updateAll();
   tick();
@@ -306,6 +315,7 @@ export function createModule4View(container: HTMLElement): Module4View {
     },
     dispose() {
       disposed = true;
+      detachDrag();
       window.removeEventListener('resize', handleResize);
       controls.dispose();
       projEdgeGeom.dispose();

@@ -7,6 +7,7 @@ import {
   TESSERACT,
   type Polytope4D,
 } from '../../math';
+import { attachDragRotate4D } from '../../lib/dragRotate4D';
 import type { ShapeKind } from './types';
 
 const SHAPES: Record<ShapeKind, Polytope4D> = {
@@ -71,7 +72,8 @@ export function createModule2View(container: HTMLElement): Module2View {
 
   let currentShape: ShapeKind = 'tesseract';
   let cameraDistance = 3;
-  let rotationAngle = 0;
+  let angleXW = 0;
+  let angleYW = 0;
   let rotationSpeed = 0.3;
 
   // Cool blue (low w) -> warm pink (high w).
@@ -108,7 +110,8 @@ export function createModule2View(container: HTMLElement): Module2View {
 
   function updateProjection(): void {
     const shape = SHAPES[currentShape];
-    const rotated = rotate4D(shape.vertices, 'XW', rotationAngle);
+    let rotated = rotate4D(shape.vertices, 'XW', angleXW);
+    if (angleYW !== 0) rotated = rotate4D(rotated, 'YW', angleYW);
     const projected = project4Dto3D(rotated, cameraDistance);
 
     const edgePos = edgeGeom.attributes.position.array as Float32Array;
@@ -160,7 +163,7 @@ export function createModule2View(container: HTMLElement): Module2View {
     const dt = Math.min(0.1, (now - lastT) / 1000);
     lastT = now;
     if (rotationSpeed > 0) {
-      rotationAngle = (rotationAngle + rotationSpeed * dt) % (Math.PI * 2);
+      angleXW = (angleXW + rotationSpeed * dt) % (Math.PI * 2);
       updateProjection();
     }
     controls.update();
@@ -176,6 +179,12 @@ export function createModule2View(container: HTMLElement): Module2View {
   }
   window.addEventListener('resize', handleResize);
 
+  const detachDrag = attachDragRotate4D(renderer.domElement, controls, (dxw, dyw) => {
+    angleXW = (angleXW + dxw) % (Math.PI * 2);
+    angleYW = (angleYW + dyw) % (Math.PI * 2);
+    updateProjection();
+  });
+
   rebuildBuffers();
   updateProjection();
   tick();
@@ -184,7 +193,8 @@ export function createModule2View(container: HTMLElement): Module2View {
     setShape(kind) {
       if (kind === currentShape) return;
       currentShape = kind;
-      rotationAngle = 0;
+      angleXW = 0;
+      angleYW = 0;
       rebuildBuffers();
       updateProjection();
     },
@@ -198,6 +208,7 @@ export function createModule2View(container: HTMLElement): Module2View {
     },
     dispose() {
       disposed = true;
+      detachDrag();
       window.removeEventListener('resize', handleResize);
       controls.dispose();
       edgeGeom.dispose();

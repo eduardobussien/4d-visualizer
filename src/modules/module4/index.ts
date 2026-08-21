@@ -142,7 +142,7 @@ export function mountModule4(root: HTMLElement): () => void {
       caption.textContent =
         'rotation has no visible effect: a hypersphere is 4D-symmetric. drag to orbit the camera.';
     } else {
-      caption.textContent = 'drag to orbit the camera';
+      caption.textContent = 'drag to orbit the camera · shift+drag to rotate the shape in 4D';
     }
   }
 

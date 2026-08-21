@@ -19,7 +19,7 @@ const TEMPLATE = `
       <section class="view-panel">
         <h2>4D &rarr; 3D projection</h2>
         <div class="view-canvas" id="m2-view"></div>
-        <p class="caption muted">drag to orbit the camera</p>
+        <p class="caption muted">drag to orbit the camera &middot; shift+drag to rotate the shape in 4D</p>
       </section>
     </div>
 

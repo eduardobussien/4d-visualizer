@@ -18,7 +18,8 @@ const TEMPLATE = `
       <section class="view-panel">
         <h2>3D cross-section</h2>
         <div class="view-canvas" id="m1-view"></div>
-        <p class="caption" id="m1-caption">-</p>
+        <p class="caption" id="m1-caption"></p>
+        <p class="caption muted">drag to orbit the camera &middot; shift+drag to rotate the shape in 4D</p>
       </section>
     </div>
 
@@ -59,7 +60,10 @@ export function mountModule1(root: HTMLElement): () => void {
 
   let currentShape: ShapeKind = 'hypersphere';
   let currentW = 0;
-  let currentAngle = 0;
+  let currentXW = 0;
+  let currentYW = 0;
+
+  const deg = (rad: number): string => `${(((rad * 180) / Math.PI) % 360).toFixed(0)}°`;
 
   function renderCaption(vertexCount: number, empty: boolean): void {
     if (empty) {
@@ -73,13 +77,14 @@ export function mountModule1(root: HTMLElement): () => void {
       const r = sphereCrossSectionRadius(1, currentW);
       caption.textContent = `sphere, radius ${r.toFixed(3)} (rotation has no visible effect: a hypersphere is 4D-symmetric)`;
     } else {
-      const deg = ((currentAngle * 180) / Math.PI).toFixed(0);
-      caption.textContent = `cross-section: ${vertexCount} vertices · XW angle ${deg}°`;
+      caption.textContent =
+        `cross-section: ${vertexCount} vertices · XW ${deg(currentXW)} · YW ${deg(currentYW)}`;
     }
   }
 
-  view.onSliceChange((info, angle) => {
-    currentAngle = angle;
+  view.onSliceChange((info) => {
+    currentXW = info.angleXW;
+    currentYW = info.angleYW;
     renderCaption(info.vertexCount, info.empty);
   });
 

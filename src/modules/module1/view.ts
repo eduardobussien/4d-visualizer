@@ -8,11 +8,14 @@ import {
   sphereCrossSectionRadius,
   TESSERACT,
 } from '../../math';
+import { attachDragRotate4D } from '../../lib/dragRotate4D';
 import type { ShapeKind } from './types';
 
 export interface SliceInfo {
   vertexCount: number;
   empty: boolean;
+  angleXW: number;
+  angleYW: number;
 }
 
 export interface Module1View {
@@ -20,7 +23,7 @@ export interface Module1View {
   setSlicePosition(w: number): void;
   setRotationSpeed(speed: number): void;
   /** Called whenever the cross-section is recomputed; useful for live captions. */
-  onSliceChange(handler: (info: SliceInfo, angle: number) => void): void;
+  onSliceChange(handler: (info: SliceInfo) => void): void;
   dispose(): void;
 }
 
@@ -69,9 +72,10 @@ export function createModule1View(container: HTMLElement): Module1View {
   let group: THREE.Group | null = null;
   let currentShape: ShapeKind = 'hypersphere';
   let currentW = 0;
-  let rotationAngle = 0;
+  let angleXW = 0;
+  let angleYW = 0;
   let rotationSpeed = 0.3;
-  let sliceListener: ((info: SliceInfo, angle: number) => void) | null = null;
+  let sliceListener: ((info: SliceInfo) => void) | null = null;
 
   function clearGroup(): void {
     if (!group) return;
@@ -90,7 +94,7 @@ export function createModule1View(container: HTMLElement): Module1View {
 
   function rebuild(): void {
     clearGroup();
-    let info: SliceInfo = { vertexCount: 0, empty: true };
+    let info: SliceInfo = { vertexCount: 0, empty: true, angleXW, angleYW };
 
     if (currentShape === 'hypersphere') {
       const r = sphereCrossSectionRadius(1, currentW);
@@ -103,10 +107,11 @@ export function createModule1View(container: HTMLElement): Module1View {
         wireGeom.dispose();
         group = g;
         scene.add(g);
-        info = { vertexCount: 0, empty: false };
+        info = { vertexCount: 0, empty: false, angleXW, angleYW };
       }
     } else {
-      const rotated = rotate4D(TESSERACT.vertices, 'XW', rotationAngle);
+      let rotated = rotate4D(TESSERACT.vertices, 'XW', angleXW);
+      if (angleYW !== 0) rotated = rotate4D(rotated, 'YW', angleYW);
       const shape = { vertices: rotated, edges: TESSERACT.edges };
       const raw = crossSection(shape, currentW) as number[][];
       const points = dedupePoints(raw);
@@ -125,11 +130,11 @@ export function createModule1View(container: HTMLElement): Module1View {
         }
         group = g;
         scene.add(g);
-        info = { vertexCount: points.length, empty: false };
+        info = { vertexCount: points.length, empty: false, angleXW, angleYW };
       }
     }
 
-    sliceListener?.(info, rotationAngle);
+    sliceListener?.(info);
   }
 
   let disposed = false;
@@ -140,7 +145,7 @@ export function createModule1View(container: HTMLElement): Module1View {
     const dt = Math.min(0.1, (now - lastT) / 1000);
     lastT = now;
     if (currentShape === 'tesseract' && rotationSpeed > 0) {
-      rotationAngle = (rotationAngle + rotationSpeed * dt) % (Math.PI * 2);
+      angleXW = (angleXW + rotationSpeed * dt) % (Math.PI * 2);
       rebuild();
     }
     controls.update();
@@ -155,13 +160,22 @@ export function createModule1View(container: HTMLElement): Module1View {
     renderer.setSize(w, h);
   }
   window.addEventListener('resize', handleResize);
+
+  const detachDrag = attachDragRotate4D(renderer.domElement, controls, (dxw, dyw) => {
+    if (currentShape === 'hypersphere') return;
+    angleXW = (angleXW + dxw) % (Math.PI * 2);
+    angleYW = (angleYW + dyw) % (Math.PI * 2);
+    rebuild();
+  });
+
   rebuild();
   tick();
 
   return {
     setShape(kind) {
       currentShape = kind;
-      rotationAngle = 0;
+      angleXW = 0;
+      angleYW = 0;
       rebuild();
     },
     setSlicePosition(w) {
@@ -176,6 +190,7 @@ export function createModule1View(container: HTMLElement): Module1View {
     },
     dispose() {
       disposed = true;
+      detachDrag();
       window.removeEventListener('resize', handleResize);
       controls.dispose();
       renderer.dispose();
