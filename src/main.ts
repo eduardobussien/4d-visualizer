@@ -72,6 +72,15 @@ if (!app) throw new Error('#app element not found');
 
 const nav = document.createElement('nav');
 nav.className = 'tabs';
+
+const logo = document.createElement('a');
+logo.className = 'nav-logo';
+logo.href = `#${ROUTES.intro.slug}`;
+logo.title = 'Home';
+logo.setAttribute('aria-label', 'Home');
+logo.innerHTML = '<img src="./favicon.svg" alt="" width="24" height="24" />';
+nav.appendChild(logo);
+
 const content = document.createElement('div');
 content.className = 'route-content';
 const footer = document.createElement('footer');

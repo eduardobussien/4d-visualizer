@@ -70,7 +70,7 @@ export function createModule1View(container: HTMLElement): Module1View {
   const edgeMat = new THREE.LineBasicMaterial({ color: 0xff7eb6 });
 
   let group: THREE.Group | null = null;
-  let currentShape: ShapeKind = 'hypersphere';
+  let currentShape: ShapeKind = 'tesseract';
   let currentW = 0;
   let angleXW = 0;
   let angleYW = 0;

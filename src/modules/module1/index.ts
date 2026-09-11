@@ -27,8 +27,8 @@ const TEMPLATE = `
       <div class="control-row">
         <label>Shape</label>
         <div class="shape-buttons">
-          <button data-shape="hypersphere" class="active">Hypersphere</button>
-          <button data-shape="tesseract">Tesseract</button>
+          <button data-shape="hypersphere">Hypersphere</button>
+          <button data-shape="tesseract" class="active">Tesseract</button>
         </div>
       </div>
       <div class="control-row">
@@ -58,7 +58,7 @@ export function mountModule1(root: HTMLElement): () => void {
 
   const view = createModule1View(viewContainer);
 
-  let currentShape: ShapeKind = 'hypersphere';
+  let currentShape: ShapeKind = 'tesseract';
   let currentW = 0;
   let currentXW = 0;
   let currentYW = 0;

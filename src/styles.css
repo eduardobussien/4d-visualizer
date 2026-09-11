@@ -40,11 +40,25 @@ code,
 
 .tabs {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
   border-bottom: 1px solid var(--border);
   background: var(--bg-elev);
 }
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  margin-right: 0.5rem;
+  border-radius: 5px;
+  transition: opacity 0.15s, background 0.15s;
+  text-decoration: none;
+}
+.nav-logo:hover { opacity: 0.8; background: rgba(138, 180, 248, 0.08); }
+.nav-logo img { width: 24px; height: 24px; display: block; }
 
 .tabs button {
   background: transparent;
@@ -99,8 +113,8 @@ code,
 .intro-sub {
   color: var(--muted);
   font-size: 1.05rem;
-  margin: 0 auto 1.5rem;
-  max-width: 52ch;
+  margin: 0 auto 1.75rem;
+  max-width: 62ch;
   line-height: 1.6;
 }
 
@@ -225,7 +239,7 @@ code,
 .module-header p {
   margin: 0;
   color: var(--muted);
-  max-width: 68ch;
+  max-width: 92ch;
   font-size: 0.95rem;
 }
 
