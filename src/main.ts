@@ -1,4 +1,5 @@
 import './styles.css';
+import { attachFullscreenPanel } from './lib/fullscreenPanel';
 import { mountIntro } from './modules/intro';
 import { mountModule0 } from './modules/module0';
 import { mountModule05 } from './modules/module05';
@@ -113,7 +114,15 @@ function switchTo(route: Route): void {
   nav.querySelectorAll('button').forEach((b) =>
     b.classList.toggle('active', (b as HTMLButtonElement).dataset.route === route),
   );
-  disposeCurrent = ROUTES[route].mount(content);
+  const disposeMount = ROUTES[route].mount(content);
+  const fullscreenDetachers: (() => void)[] = [];
+  content.querySelectorAll<HTMLElement>('.view-panel').forEach((panel) => {
+    fullscreenDetachers.push(attachFullscreenPanel(panel));
+  });
+  disposeCurrent = () => {
+    fullscreenDetachers.forEach((detach) => detach());
+    disposeMount();
+  };
 }
 
 window.addEventListener('hashchange', () => {
