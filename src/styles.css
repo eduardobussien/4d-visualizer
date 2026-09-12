@@ -110,6 +110,28 @@ code,
   line-height: 1.1;
 }
 
+.intro-hero-canvas {
+  width: 100%;
+  max-width: 460px;
+  height: 260px;
+  margin: 1.25rem auto 0.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.intro-hero-canvas canvas {
+  display: block;
+}
+.intro-hero-hint {
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  margin: 0 0 1.5rem;
+  text-transform: none;
+}
+
 .intro-sub {
   color: var(--muted);
   font-size: 1.05rem;

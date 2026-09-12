@@ -1,7 +1,11 @@
+import { createHeroTesseract } from './heroTesseract';
+
 const TEMPLATE = `
   <div class="intro">
     <section class="intro-hero">
       <h1>Seeing the Fourth Dimension</h1>
+      <div class="intro-hero-canvas" id="intro-hero-canvas"></div>
+      <p class="intro-hero-hint">a tesseract, rotating in 4D</p>
       <p class="intro-sub">
         An intuition-first tool for perceiving 4D shapes. 4D is impossible to
         see directly, but the intuition for it can be built up step by step.
@@ -62,7 +66,10 @@ const TEMPLATE = `
 
 export function mountIntro(root: HTMLElement): () => void {
   root.innerHTML = TEMPLATE;
+  const canvasContainer = root.querySelector('#intro-hero-canvas') as HTMLElement | null;
+  const hero = canvasContainer ? createHeroTesseract(canvasContainer) : null;
   return () => {
+    hero?.dispose();
     root.innerHTML = '';
   };
 }
