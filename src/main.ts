@@ -95,7 +95,11 @@ app.appendChild(footer);
 let currentRoute: Route = currentHashRoute();
 let disposeCurrent: (() => void) | null = null;
 
-ORDER.forEach((route) => {
+// Intro is reached via the home logo, not a tab, so the tab bar stays focused
+// on the interactive experiences.
+const TAB_ORDER = ORDER.filter((r) => r !== 'intro');
+
+TAB_ORDER.forEach((route) => {
   const btn = document.createElement('button');
   btn.textContent = ROUTES[route].label;
   btn.dataset.route = route;
