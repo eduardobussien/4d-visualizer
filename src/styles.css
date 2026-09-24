@@ -86,57 +86,64 @@ code,
 }
 
 .intro {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 2.5rem 2rem 3rem;
   width: 100%;
+  padding: 0 0 3.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 3rem;
 }
 
 .intro-hero {
-  text-align: center;
-  padding: 0.25rem 0 1rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.intro-hero h1 {
-  font-size: 2.4rem;
-  font-weight: 600;
-  margin: 0 0 0.8rem;
-  color: var(--fg);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-.intro-hero-canvas {
-  width: 100%;
-  max-width: 460px;
-  height: 260px;
-  margin: 1.25rem auto 0.5rem;
-  border-radius: 8px;
-  overflow: hidden;
+  position: relative;
+  min-height: 540px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 3.5rem 1.5rem 4rem;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  background: radial-gradient(circle at center, rgba(138, 180, 248, 0.06) 0%, transparent 65%);
+}
+
+.intro-hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.55;
+  pointer-events: none;
 }
 .intro-hero-canvas canvas {
   display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
-.intro-hero-hint {
-  color: var(--muted);
-  font-size: 0.78rem;
-  letter-spacing: 0.03em;
+
+.intro-hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 640px;
+  width: 100%;
+}
+
+.intro-title {
+  font-size: 3.25rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   margin: 0 0 1.5rem;
-  text-transform: none;
+  line-height: 1.05;
+  background: linear-gradient(135deg, #8ab4f8 0%, #d4b3f9 50%, #ff7eb6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .intro-sub {
-  color: var(--muted);
+  color: var(--fg);
   font-size: 1.05rem;
-  margin: 0 auto 1.75rem;
-  max-width: 62ch;
+  margin: 0 auto 2rem;
+  max-width: 54ch;
   line-height: 1.6;
 }
 
@@ -144,14 +151,27 @@ code,
   display: inline-block;
   background: var(--accent);
   color: var(--bg);
-  padding: 0.6rem 1.2rem;
+  padding: 0.7rem 1.5rem;
   border-radius: 6px;
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: opacity 0.15s;
+  font-weight: 600;
+  font-size: 0.98rem;
+  transition: opacity 0.15s, transform 0.15s;
 }
-.intro-cta:hover { opacity: 0.85; }
+.intro-cta:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.intro-body {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
 
 .intro-block h2 {
   font-size: 0.82rem;
@@ -159,20 +179,20 @@ code,
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin: 0 0 0.8rem;
+  margin: 0 0 0.9rem;
 }
 
 .intro-lead {
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.65;
-  margin: 0 0 0.75rem;
+  margin: 0 0 1.75rem;
 }
 
 .intro-tabs {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -180,7 +200,15 @@ code,
 }
 
 .intro-tabs li {
-  padding: 0.9rem 1rem 0.9rem 3.25rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  counter-increment: step;
+}
+
+.intro-tab-link {
+  display: block;
+  padding: 0.95rem 1rem 0.95rem 3.25rem;
   background: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -188,14 +216,20 @@ code,
   color: var(--fg);
   font-size: 0.92rem;
   line-height: 1.6;
-  counter-increment: step;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+.intro-tab-link:hover {
+  background: rgba(138, 180, 248, 0.06);
+  border-color: var(--accent);
+  transform: translateY(-1px);
 }
 
-.intro-tabs li::before {
+.intro-tab-link::before {
   content: counter(step);
   position: absolute;
   left: 0.9rem;
-  top: 0.85rem;
+  top: 0.9rem;
   width: 1.6rem;
   height: 1.6rem;
   border-radius: 50%;
@@ -208,7 +242,7 @@ code,
   font-weight: 600;
 }
 
-.intro-tabs li strong {
+.intro-tab-link strong {
   color: var(--accent);
   font-weight: 600;
 }
@@ -218,6 +252,11 @@ code,
   font-size: 0.95rem;
   line-height: 1.7;
   margin: 0;
+}
+
+@media (max-width: 640px) {
+  .intro-title { font-size: 2.4rem; }
+  .intro-hero { min-height: 440px; padding: 2.5rem 1rem 3rem; }
 }
 
 .site-footer {
