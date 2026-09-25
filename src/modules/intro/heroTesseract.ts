@@ -20,12 +20,12 @@ export function createHeroTesseract(container: HTMLElement): HeroTesseract {
   scene.background = null; // let the container's background show through
 
   const camera = new THREE.PerspectiveCamera(
-    55,
+    62,
     container.clientWidth / container.clientHeight,
     0.1,
     100,
   );
-  camera.position.set(2.8, 2.0, 3.4);
+  camera.position.set(2.1, 1.5, 2.6);
   camera.lookAt(0, 0, 0);
 
   const edgeMat = new THREE.LineBasicMaterial({ vertexColors: true });
