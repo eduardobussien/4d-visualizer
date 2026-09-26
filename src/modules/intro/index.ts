@@ -63,6 +63,42 @@ const TEMPLATE = `
       </section>
 
       <section class="intro-block">
+        <h2>A few words used here</h2>
+        <dl class="intro-glossary">
+          <dt>W, the fourth axis</dt>
+          <dd>
+            Our space has three directions: left/right (X), up/down (Y), and
+            forward/back (Z). A fourth direction, W, points somewhere none of
+            those do. Nobody can picture it, but the math treats it like any
+            other axis: a point in 4D just has four numbers instead of three.
+          </dd>
+          <dt>Slice (cross-section)</dt>
+          <dd>
+            What remains when a shape is cut by something one dimension lower.
+            A flat plane slices a 3D ball into a circle; a 3D space slices a 4D
+            ball into a ball.
+          </dd>
+          <dt>Projection (shadow)</dt>
+          <dd>
+            Flattening a whole shape one dimension down, the way a photo
+            flattens 3D into 2D. Nothing is cut away, but depth is lost.
+          </dd>
+          <dt>Rotation plane</dt>
+          <dd>
+            In 3D, objects spin around an axis. In 4D they spin within a flat
+            plane made of two axes, such as XY or XW. There are six such
+            planes; the three that include W have no 3D equivalent.
+          </dd>
+          <dt>The shapes</dt>
+          <dd>
+            A tesseract is a 4D cube (16 corners, 32 edges). A hypersphere is
+            every point at the same distance from a center in 4D. The 5-cell
+            and 16-cell are the 4D cousins of the tetrahedron and octahedron.
+          </dd>
+        </dl>
+      </section>
+
+      <section class="intro-block">
         <h2>Why this project</h2>
         <p>
           Most 4D visualizers open with a rotating tesseract and expect

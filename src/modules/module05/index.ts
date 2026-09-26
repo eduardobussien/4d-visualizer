@@ -1,4 +1,11 @@
-import { cone, extrude, type Polytope, type Polytope2D } from '../../math';
+import {
+  cone,
+  equalEdgeApexHeight,
+  extrude,
+  meanEdgeLength,
+  type Polytope,
+  type Polytope2D,
+} from '../../math';
 import { createNative2DView } from './native2dView';
 import { createRaised3DView } from './raised3dView';
 import { createRaised4DView } from './raised4dView';
@@ -29,11 +36,13 @@ const TEMPLATE = `
         <h2>Raised to 3D</h2>
         <div class="view-canvas" id="m05-raised3d"></div>
         <p class="caption" id="m05-raised3d-caption"></p>
+        <p class="caption muted">pink outline: the 2D slice a flat being would see at this height</p>
       </section>
       <section class="view-panel">
         <h2>Raised to 4D, sliced into 3D</h2>
         <div class="view-canvas" id="m05-raised4d"></div>
         <p class="caption" id="m05-raised4d-caption"></p>
+        <p class="caption muted" id="m05-raised4d-hint"></p>
       </section>
     </div>
 
@@ -79,14 +88,31 @@ function buildPresetButtons(container: HTMLElement, active: ShapeSource): void {
   container.appendChild(custom);
 }
 
+// Heights are chosen so edges stay equal where possible: extruding a square
+// gives a true cube, and coning a triangle gives a regular tetrahedron.
 function raise(shape: Polytope2D, op: Operation): { raised3D: Polytope; raised4D: Polytope } {
   if (op === 'extrude') {
-    const r3 = extrude(shape);
-    return { raised3D: r3, raised4D: extrude(r3) };
+    const r3 = extrude(shape, meanEdgeLength(shape));
+    return { raised3D: r3, raised4D: extrude(r3, meanEdgeLength(r3)) };
   }
-  const r3 = cone(shape);
-  return { raised3D: r3, raised4D: cone(r3) };
+  const r3 = cone(shape, equalEdgeApexHeight(shape));
+  return { raised3D: r3, raised4D: cone(r3, equalEdgeApexHeight(r3)) };
 }
+
+/** How far the shape reaches along its newest axis (the one the slider moves along). */
+function extentAlongNewAxis(p: Polytope): number {
+  let max = 0;
+  for (const v of p.vertices) max = Math.max(max, v[v.length - 1]);
+  return max;
+}
+
+const ADJECTIVE: Record<PresetKind | 'custom', string> = {
+  triangle: 'triangular',
+  square: 'square',
+  pentagon: 'pentagonal',
+  hexagon: 'hexagonal',
+  custom: 'custom',
+};
 
 const EMPTY_POLYTOPE: Polytope = { vertices: [], edges: [] };
 
@@ -102,6 +128,7 @@ export function mountModule05(root: HTMLElement): () => void {
   const nativeCaption = root.querySelector('#m05-native-caption') as HTMLElement;
   const raised3DCaption = root.querySelector('#m05-raised3d-caption') as HTMLElement;
   const raised4DCaption = root.querySelector('#m05-raised4d-caption') as HTMLElement;
+  const raised4DHint = root.querySelector('#m05-raised4d-hint') as HTMLElement;
 
   const native = createNative2DView(root.querySelector('#m05-native') as HTMLElement);
   const raised3D = createRaised3DView(root.querySelector('#m05-raised3d') as HTMLElement);
@@ -116,22 +143,18 @@ export function mountModule05(root: HTMLElement): () => void {
   buildPresetButtons(presetsRow, currentSource);
 
   function shapeName(source: ShapeSource, op: Operation, dim: 3 | 4): string {
-    if (source === 'custom') {
-      return op === 'extrude'
-        ? `the shape extruded ${dim - 2}x`
-        : `the shape coned ${dim - 2}x`;
-    }
+    const adj = ADJECTIVE[source];
     if (op === 'extrude') {
-      if (source === 'square' && dim === 3) return 'cube';
-      if (source === 'square' && dim === 4) return 'tesseract';
-      if (source === 'triangle' && dim === 3) return 'triangular prism';
-      return `${PRESET_LABEL[source].toLowerCase()} extruded ${dim - 2}x`;
+      if (source === 'square') return dim === 3 ? 'a cube' : 'a tesseract (4D cube)';
+      return dim === 3 ? `a ${adj} prism` : `a ${adj} prism, extruded again (a 4D prism)`;
     }
-    if (source === 'triangle' && dim === 3) return 'tetrahedron';
-    if (source === 'triangle' && dim === 4) return '5-cell (4-simplex)';
-    if (source === 'square' && dim === 3) return 'square pyramid';
-    return `${PRESET_LABEL[source].toLowerCase()} coned ${dim - 2}x`;
+    if (source === 'triangle') {
+      return dim === 3 ? 'a regular tetrahedron' : 'a regular 5-cell (4D tetrahedron)';
+    }
+    return dim === 3 ? `a ${adj} pyramid` : `a 4D pyramid built on the ${adj} pyramid`;
   }
+
+  const count = (p: Polytope): string => `${p.vertices.length} vertices, ${p.edges.length} edges`;
 
   function currentShape2D(): Polytope2D | null {
     if (currentSource === 'custom') return customShape;
@@ -146,25 +169,44 @@ export function mountModule05(root: HTMLElement): () => void {
       return;
     }
     const label = currentSource === 'custom' ? 'Custom' : PRESET_LABEL[currentSource];
-    nativeCaption.textContent = `${label}: ${shape2D.vertices.length} vertices`;
-    if (r3)
-      raised3DCaption.textContent = `${shapeName(currentSource, currentOp, 3)}: ${r3.vertices.length}v, ${r3.edges.length}e`;
-    if (r4)
-      raised4DCaption.textContent = `${shapeName(currentSource, currentOp, 4)} sliced at w=${currentW.toFixed(2)}: ${r4.vertices.length}v, ${r4.edges.length}e in 4D`;
+    nativeCaption.textContent = `${label}: ${shape2D.vertices.length} vertices, ${shape2D.edges.length} edges`;
+    if (r3) raised3DCaption.textContent = `${shapeName(currentSource, currentOp, 3)}: ${count(r3)}`;
+    if (r4) raised4DCaption.textContent = `${shapeName(currentSource, currentOp, 4)}: ${count(r4)} in 4D`;
+    raised4DHint.textContent =
+      currentOp === 'extrude'
+        ? 'every slice between the two ends looks the same, because extruding just repeats the shape along W'
+        : 'slices shrink as w rises, down to a single point at the tip';
+  }
+
+  // Each shape reaches a different height along the new axis, so the slice
+  // sliders are re-ranged to it and re-centered whenever the shape changes.
+  function fitSliders(r3: Polytope, r4: Polytope): void {
+    const h3 = extentAlongNewAxis(r3);
+    const h4 = extentAlongNewAxis(r4);
+    slice3D.max = (h3 + 0.1).toFixed(2);
+    slice4D.max = (h4 + 0.1).toFixed(2);
+    currentY = +(h3 / 2).toFixed(2);
+    currentW = +(h4 / 2).toFixed(2);
+    slice3D.value = String(currentY);
+    slice4D.value = String(currentW);
   }
 
   function syncAll(): void {
     const shape2D = currentShape2D();
-    slice3DValue.textContent = `y = ${currentY.toFixed(2)}`;
-    slice4DValue.textContent = `w = ${currentW.toFixed(2)}`;
 
     if (!shape2D) {
+      slice3DValue.textContent = `y = ${currentY.toFixed(2)}`;
+      slice4DValue.textContent = `w = ${currentW.toFixed(2)}`;
       raised3D.setShape(EMPTY_POLYTOPE);
       raised4D.setShape(EMPTY_POLYTOPE);
       renderCaptions(null, null, null);
+      raised4DHint.textContent = '';
       return;
     }
     const { raised3D: r3, raised4D: r4 } = raise(shape2D, currentOp);
+    fitSliders(r3, r4);
+    slice3DValue.textContent = `y = ${currentY.toFixed(2)}`;
+    slice4DValue.textContent = `w = ${currentW.toFixed(2)}`;
     if (currentSource !== 'custom') native.setShape(shape2D);
     // Custom polygons may be non-convex; skip ConvexGeometry to avoid
     // silently rewriting them as their convex hull.
@@ -220,11 +262,6 @@ export function mountModule05(root: HTMLElement): () => void {
     currentW = parseFloat(slice4D.value);
     raised4D.setSlicePosition(currentW);
     slice4DValue.textContent = `w = ${currentW.toFixed(2)}`;
-    const shape2D = currentShape2D();
-    if (shape2D) {
-      const r4 = raise(shape2D, currentOp).raised4D;
-      raised4DCaption.textContent = `${shapeName(currentSource, currentOp, 4)} sliced at w=${currentW.toFixed(2)}: ${r4.vertices.length}v, ${r4.edges.length}e in 4D`;
-    }
   });
 
   syncAll();

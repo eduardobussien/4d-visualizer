@@ -63,12 +63,12 @@ const TEMPLATE = `
       </div>
       <div class="control-row" id="m4-distance-row">
         <label for="m4-distance">4D camera distance (d)</label>
-        <input type="range" id="m4-distance" min="1.6" max="6" step="0.05" value="3" />
+        <input type="range" id="m4-distance" min="2.3" max="6" step="0.05" value="3" />
         <span id="m4-distance-value" class="value">d = 3.00</span>
       </div>
       <div class="control-row hidden" id="m4-slice-row">
         <label for="m4-slice">W slice</label>
-        <input type="range" id="m4-slice" min="-1.6" max="1.6" step="0.01" value="0" />
+        <input type="range" id="m4-slice" min="-2.1" max="2.1" step="0.01" value="0" />
         <span id="m4-slice-value" class="value">w = 0.00</span>
       </div>
 

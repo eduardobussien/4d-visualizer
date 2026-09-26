@@ -14,8 +14,6 @@ import type { ShapeKind } from './types';
 export interface SliceInfo {
   vertexCount: number;
   empty: boolean;
-  angleXW: number;
-  angleYW: number;
 }
 
 export interface Module1View {
@@ -72,8 +70,13 @@ export function createModule1View(container: HTMLElement): Module1View {
   let group: THREE.Group | null = null;
   let currentShape: ShapeKind = 'tesseract';
   let currentW = 0;
+  // Rotating in a single 4D plane only ever tilts the slicing hyperplane along
+  // one axis, which always cuts the tesseract into a plain box. Turning three
+  // W-planes at unrelated rates tilts it generically, so the slice passes
+  // through triangles, hexagons, and other polyhedra.
   let angleXW = 0;
   let angleYW = 0;
+  let angleZW = 0;
   let rotationSpeed = 0.3;
   let sliceListener: ((info: SliceInfo) => void) | null = null;
 
@@ -94,7 +97,7 @@ export function createModule1View(container: HTMLElement): Module1View {
 
   function rebuild(): void {
     clearGroup();
-    let info: SliceInfo = { vertexCount: 0, empty: true, angleXW, angleYW };
+    let info: SliceInfo = { vertexCount: 0, empty: true };
 
     if (currentShape === 'hypersphere') {
       const r = sphereCrossSectionRadius(1, currentW);
@@ -107,11 +110,12 @@ export function createModule1View(container: HTMLElement): Module1View {
         wireGeom.dispose();
         group = g;
         scene.add(g);
-        info = { vertexCount: 0, empty: false, angleXW, angleYW };
+        info = { vertexCount: 0, empty: false };
       }
     } else {
       let rotated = rotate4D(TESSERACT.vertices, 'XW', angleXW);
-      if (angleYW !== 0) rotated = rotate4D(rotated, 'YW', angleYW);
+      rotated = rotate4D(rotated, 'YW', angleYW);
+      rotated = rotate4D(rotated, 'ZW', angleZW);
       const shape = { vertices: rotated, edges: TESSERACT.edges };
       const raw = crossSection(shape, currentW) as number[][];
       const points = dedupePoints(raw);
@@ -130,7 +134,7 @@ export function createModule1View(container: HTMLElement): Module1View {
         }
         group = g;
         scene.add(g);
-        info = { vertexCount: points.length, empty: false, angleXW, angleYW };
+        info = { vertexCount: points.length, empty: false };
       }
     }
 
@@ -146,6 +150,8 @@ export function createModule1View(container: HTMLElement): Module1View {
     lastT = now;
     if (currentShape === 'tesseract' && rotationSpeed > 0) {
       angleXW = (angleXW + rotationSpeed * dt) % (Math.PI * 2);
+      angleYW = (angleYW + 0.7 * rotationSpeed * dt) % (Math.PI * 2);
+      angleZW = (angleZW + 0.45 * rotationSpeed * dt) % (Math.PI * 2);
       rebuild();
     }
     controls.update();
@@ -176,6 +182,7 @@ export function createModule1View(container: HTMLElement): Module1View {
       currentShape = kind;
       angleXW = 0;
       angleYW = 0;
+      angleZW = 0;
       rebuild();
     },
     setSlicePosition(w) {

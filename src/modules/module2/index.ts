@@ -6,12 +6,14 @@ const TEMPLATE = `
     <header class="module-header">
       <h1>Projection Mode</h1>
       <p>
-        The same 4D shape, but flattened into 3D as a "shadow." Perspective
-        projection: <code>x' = x / (d &minus; w)</code>. Vertices farther in W
-        shrink, the way distant objects shrink in a photo. The cube-in-a-cube
-        tesseract is just this rule applied to a 4D cube, with the inner cube
-        being the side farther in W. Hue encodes the W coordinate the
-        projection threw away.
+        Instead of slicing, flatten the whole 4D shape into 3D, the way a
+        photo flattens our 3D world into 2D. Picture a 4D camera sitting out
+        along the W axis, a distance d from the shape's center. Parts of the
+        shape farther from that camera look smaller, just like far objects in
+        a photo: <code>x' = x / (d &minus; w)</code>. That is where the famous
+        cube-inside-a-cube picture of the tesseract comes from: the big outer
+        cube is its near face in W, the small inner cube its far face. Color shows the W
+        value the flattening threw away: pink is near the camera, blue is far.
       </p>
     </header>
 
@@ -33,11 +35,11 @@ const TEMPLATE = `
       </div>
       <div class="control-row">
         <label for="m2-distance">4D camera distance (d)</label>
-        <input type="range" id="m2-distance" min="1.6" max="6" step="0.05" value="3" />
+        <input type="range" id="m2-distance" min="2.3" max="6" step="0.05" value="3" />
         <span id="m2-distance-value" class="value">d = 3.00</span>
       </div>
       <div class="control-row">
-        <label for="m2-rot">XW rotation</label>
+        <label for="m2-rot">4D spin (XW plane)</label>
         <input type="range" id="m2-rot" min="0" max="1.2" step="0.01" value="0.3" />
         <span id="m2-rot-value" class="value">0.30 rad/s</span>
       </div>

@@ -16,7 +16,7 @@ export const SQUARE: Polytope2D = {
   ],
 };
 
-/** Equilateral triangle centered at origin (approximately). */
+/** Equilateral triangle centered at origin. */
 export const TRIANGLE: Polytope2D = {
   vertices: [
     [ 0,  1],

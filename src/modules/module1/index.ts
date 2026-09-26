@@ -7,10 +7,14 @@ const TEMPLATE = `
     <header class="module-header">
       <h1>Tesseract Cross-Sections</h1>
       <p>
-        A 4D shape passes through 3D space. Only the slice is ever visible.
-        For a hypersphere it grows from a point, peaks, then shrinks back.
-        For a tesseract with 4D rotation, the slice morphs through a sequence
-        of polyhedra, and that morphing is the 4D experience for a 3D being.
+        Same trick as Flatland, one dimension up. A 4D shape meets our 3D
+        space, and all a 3D being can ever see is the 3D slice where they
+        overlap. The W slider moves the slice along the fourth axis. A
+        hypersphere's slice is a ball that grows from a point, peaks, then
+        shrinks back, just like a sphere through Flatland. A tesseract (a 4D
+        cube) slowly tilting in 4D gives slices that keep changing shape: a
+        cube, stretched boxes, pointed tetrahedra near a corner, and stranger
+        many-faced solids in between.
       </p>
     </header>
 
@@ -33,11 +37,11 @@ const TEMPLATE = `
       </div>
       <div class="control-row">
         <label for="m1-slice">W slice</label>
-        <input type="range" id="m1-slice" min="-1.6" max="1.6" step="0.01" value="0" />
+        <input type="range" id="m1-slice" min="-2.1" max="2.1" step="0.01" value="0" />
         <span id="m1-slice-value" class="value">w = 0.00</span>
       </div>
       <div class="control-row">
-        <label for="m1-rot">XW rotation</label>
+        <label for="m1-rot">4D tilt speed</label>
         <input type="range" id="m1-rot" min="0" max="1.2" step="0.01" value="0.3" />
         <span id="m1-rot-value" class="value">0.30 rad/s</span>
       </div>
@@ -60,10 +64,6 @@ export function mountModule1(root: HTMLElement): () => void {
 
   let currentShape: ShapeKind = 'tesseract';
   let currentW = 0;
-  let currentXW = 0;
-  let currentYW = 0;
-
-  const deg = (rad: number): string => `${(((rad * 180) / Math.PI) % 360).toFixed(0)}°`;
 
   function renderCaption(vertexCount: number, empty: boolean): void {
     if (empty) {
@@ -77,14 +77,11 @@ export function mountModule1(root: HTMLElement): () => void {
       const r = sphereCrossSectionRadius(1, currentW);
       caption.textContent = `sphere, radius ${r.toFixed(3)} (rotation has no visible effect: a hypersphere is 4D-symmetric)`;
     } else {
-      caption.textContent =
-        `cross-section: ${vertexCount} vertices · XW ${deg(currentXW)} · YW ${deg(currentYW)}`;
+      caption.textContent = `the slice is a solid with ${vertexCount} corners`;
     }
   }
 
   view.onSliceChange((info) => {
-    currentXW = info.angleXW;
-    currentYW = info.angleYW;
     renderCaption(info.vertexCount, info.empty);
   });
 

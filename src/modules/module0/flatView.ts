@@ -81,7 +81,7 @@ export function createFlatView(container: HTMLElement): FlatView {
       ctx.fill();
       ctx.stroke();
     } else {
-      if (currentY <= -1 || currentY >= 1) {
+      if (currentY < -1 || currentY > 1) {
         drawEmpty();
         return;
       }

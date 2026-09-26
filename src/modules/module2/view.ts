@@ -79,8 +79,8 @@ export function createModule2View(container: HTMLElement): Module2View {
   // Cool blue (low w) -> warm pink (high w).
   const COLOR_COOL = new THREE.Color(0x8ab4f8);
   const COLOR_WARM = new THREE.Color(0xff7eb6);
-  // After XW rotation, rotated_w = w*cos - x*sin, so |w'| can reach ~sqrt(2)
-  // for the tesseract. Use that as the color-mapping range.
+  // XW spin alone keeps |w| <= sqrt(2) for the tesseract; tilting further with
+  // shift+drag can reach 2, which just clamps to full pink / full blue.
   const W_RANGE = Math.SQRT2;
 
   function colorForW(w: number, out: THREE.Color): void {

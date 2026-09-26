@@ -68,7 +68,7 @@ export function mountModule0(root: HTMLElement): () => void {
         ? 'nothing: the plane is outside the sphere'
         : `a circle, radius ${r.toFixed(2)}`;
     }
-    if (currentY <= -1 || currentY >= 1) {
+    if (currentY < -1 || currentY > 1) {
       return 'nothing: the plane is outside the cube';
     }
     return 'a square, side 2.00';

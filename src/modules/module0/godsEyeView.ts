@@ -124,7 +124,7 @@ export function createGodsEyeView(container: HTMLElement): GodsEyeView {
         pts.push(new THREE.Vector3(r * Math.cos(t), y, r * Math.sin(t)));
       }
     } else {
-      if (y <= -1 || y >= 1) return;
+      if (y < -1 || y > 1) return;
       pts.push(
         new THREE.Vector3(-1, y, -1),
         new THREE.Vector3( 1, y, -1),

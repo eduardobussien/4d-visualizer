@@ -51,3 +51,33 @@ export function cone(shape: Polytope, apexHeight: number = 1): Polytope {
 
   return { vertices, edges: [...originalEdges, ...apexEdges] };
 }
+
+/** Average edge length. Extruding by this keeps every edge the same length (square -> true cube). */
+export function meanEdgeLength(shape: Polytope): number {
+  if (shape.edges.length === 0) return 0;
+  let total = 0;
+  for (const [i, j] of shape.edges) {
+    const a = shape.vertices[i];
+    const b = shape.vertices[j];
+    total += Math.hypot(...a.map((v, d) => v - b[d]));
+  }
+  return total / shape.edges.length;
+}
+
+/**
+ * Apex height for `cone` that makes the new edges as long as the base's edges,
+ * so equilateral triangle -> regular tetrahedron -> regular 5-cell. When no
+ * such height exists (a regular hexagon's corners are as far from its center
+ * as its edges are long), falls back to the edge length.
+ */
+export function equalEdgeApexHeight(shape: Polytope): number {
+  const n = shape.vertices.length;
+  if (n === 0) return 0;
+  const dim = shape.vertices[0].length;
+  const c = new Array(dim).fill(0);
+  for (const v of shape.vertices) for (let i = 0; i < dim; i++) c[i] += v[i] / n;
+  let r = 0;
+  for (const v of shape.vertices) r = Math.max(r, Math.hypot(...v.map((x, i) => x - c[i])));
+  const l = meanEdgeLength(shape);
+  return l > r + 1e-9 ? Math.sqrt(l * l - r * r) : l;
+}

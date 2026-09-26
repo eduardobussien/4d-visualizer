@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { cone, extrude } from '../dimensionRaising';
+import { cone, equalEdgeApexHeight, extrude, meanEdgeLength } from '../dimensionRaising';
+import type { Polytope } from '../types';
 import { SQUARE, TRIANGLE } from '../shapes';
 
 describe('extrude', () => {
@@ -46,5 +47,28 @@ describe('cone', () => {
     // centroid of the equilateral triangle in shapes.ts is (0, 0)
     expect(apex[0]).toBeCloseTo(0);
     expect(apex[1]).toBeCloseTo(0);
+  });
+});
+
+const edgeLengths = (p: Polytope): number[] =>
+  p.edges.map(([i, j]) => Math.hypot(...p.vertices[i].map((v, d) => v - p.vertices[j][d])));
+
+const allEqual = (xs: number[]): boolean => xs.every((x) => Math.abs(x - xs[0]) < 1e-9);
+
+describe('regular raising (what Build & Raise shows)', () => {
+  it('extruding a square by its edge length gives a true cube, then a true tesseract', () => {
+    const cube = extrude(SQUARE, meanEdgeLength(SQUARE));
+    expect(allEqual(edgeLengths(cube))).toBe(true);
+    const tesseract = extrude(cube, meanEdgeLength(cube));
+    expect(tesseract.edges.length).toBe(32);
+    expect(allEqual(edgeLengths(tesseract))).toBe(true);
+  });
+
+  it('coning an equilateral triangle gives a regular tetrahedron, then a regular 5-cell', () => {
+    const tet = cone(TRIANGLE, equalEdgeApexHeight(TRIANGLE));
+    expect(allEqual(edgeLengths(tet))).toBe(true);
+    const fiveCell = cone(tet, equalEdgeApexHeight(tet));
+    expect(fiveCell.edges.length).toBe(10);
+    expect(allEqual(edgeLengths(fiveCell))).toBe(true);
   });
 });
